@@ -1,0 +1,67 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Pokedeck</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            for (var i = 1; i < 151; i++) {
+                $('#pokemon').append("<img id='" + i + "'class='pokemon' src='http://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/" + i + ".png'/>");
+            }
+            $('.pokemon').click(function() {
+                var id = this.id
+                $.get('http://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/' + id, function(res) {
+                    var html_str = "";
+                    html_str += "<img id='" + id + "'class='pokemon' src='http://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/shiny/" + id + ".png'/>";
+                    html_str += "<h4>Name: " + res['name'] + "</h4>";
+                    html_str += "<h4>Height:</h4>";
+                    html_str += res['height'];
+                    html_str += "<h4>Weight</h4>";
+                    html_str += res['weight'];
+                    html_str += "<h4>Types</h4>";
+                    html_str += "<ul>";
+                    for (var k = 0; k < res['types'].length; k++) {
+                        html_str += "<li>" + res['types'][k]['name'] + "</li>";
+                    }
+                    html_str += "</ul>";
+                    $('#pokedeck').html(html_str)
+                    $('html, body').animate({
+                        scrollTop: 0
+                    }, 600);
+                });
+            })
+        });
+    </script>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        
+        #pokemon {
+            width: 70%;
+            float: left;
+            min-height: 300px;
+            box-sizing: content-box;
+            margin-right: 1%;
+        }
+        
+        #pokedeck {
+            width: 27%;
+            box-sizing: border-box;
+            border: 10px solid red;
+            float: left;
+            height: 500px;
+            padding: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class='row'>
+        <div id='pokemon'></div>
+        <div id='pokedeck'></div>
+    </div>
+</body>
+
+</html>
